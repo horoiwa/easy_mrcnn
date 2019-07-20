@@ -58,7 +58,7 @@ def dataset_generator(dataset_dir, outdir):
                 mask = mask.resize(SAMPLE_SIZE)
                 mask = mask.convert('L')
 
-            mask.save(os.path.join(mask_dir, f'{n}.jpg'))
+            mask.save(os.path.join(mask_dir, f'{cnt}{n}.jpg'))
 
     valid = os.path.join(dataset_dir, 'valid')
     shutil.copytree(valid, os.path.join(outdir, 'valid'))
