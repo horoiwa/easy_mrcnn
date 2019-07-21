@@ -3,6 +3,7 @@ import os
 import shutil
 
 from .generator import dataset_generator
+from .util import check_dataset
 
 
 @click.group()
@@ -16,7 +17,7 @@ def cli():
               type=click.Path(exists=True))
 @click.option('--out_dir', '-o', default='logs',
               help='Dataset folder path')
-def prep(dataset_dir, out_dir):
+def prepare(dataset_dir, out_dir):
     out_dir = os.path.join(dataset_dir, out_dir)
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
@@ -26,7 +27,8 @@ def prep(dataset_dir, out_dir):
     out_dir = os.path.abspath(out_dir)
 
     dataset_generator(dataset_dir, out_dir)
-    print("Finish prep dataset")
+    check_dataset(out_dir)
+    print("Generate dataset")
 
 
 @cli.command()

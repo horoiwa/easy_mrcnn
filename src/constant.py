@@ -1,6 +1,8 @@
 import os
 from mrcnn import utils
 
+DATASET_NAME = 'cell_dataset'
+OBJECT_NAME = 'cell'
 
 ROOT_DIR = os.path.abspath('.')
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
@@ -14,8 +16,7 @@ MASK_COLORMODE = 'L'
 
 N_TRAIN = 3
 IMAGE_SIZE = (768, 768)
-INPUT_SIZE = (768, 768)
-assert IMAGE_SIZE == INPUT_SIZE, "開発の都合によりリサイズ禁止"
+INPUT_SIZE = (1024, 1024)
 
 #: 基本的にはこの設定値なら影響がない
 PCA_COLOR = True
