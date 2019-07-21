@@ -6,13 +6,17 @@ Great thanks to the contributors.
 
 
 ### 環境作成
+- 要求パッケージのインストール<br>
+    MASK-RCNNフォルダ内で`pip install -r requirements.txtx`
 
 - imgaugパッケージのinstall
+※この手順はimgaugのインストに失敗した場合に必要
 pip install six numpy scipy Pillow matplotlib scikit-image opencv-python imageio Shapely
 
     インストール方法　：　https://imgaug.readthedocs.io/en/latest/source/installation.html
 
 - Shapely のインストール
+※この手順はshapelyのインストに失敗した場合に必要
 UnicodeDecodeError => condaに切り替えでおｋ
 
 - pycocotoolsのインストール要求
