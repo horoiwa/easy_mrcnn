@@ -1,9 +1,25 @@
-### Mask-RCNN
+## One class Mask-RCNN
 
-The project is based on the implementation of Mask-RCNN by (https://github.com/matterport/Mask_RCNN).
-Great thanks to the contributors.
+The repo is based on the implementation of Mask-RCNN by (https://github.com/matterport/Mask_RCNN).<br>
+Great thanks to the developers.
 
+This repo is utility to train one-class mask and run inference by Mask-RCNN.
 
+<br>
+
+### 単一クラス用Mask-RCNN
+このrepoはInstance segmentationを単一クラスに対して適用するためのユーティリティです。
+
+元画像-二値化マスク画像をそれぞれ`dataset`の`imag`および`mask`に配置するだけで準備は完了です。<br>
+※二値化マスクではインスタンスが分離されている必要があります。これはopencvのブロブ検出によってインスタンスの判断を行うためです。
+
+1. `python -m src prepare -d ./dataset`
+2. `python -m src train -d ./dataset`
+3. `python -m src validation -d ./dataset`
+
+結果はすべて`dataset/logs`に出力されます。
+
+<br>
 
 ### 環境作成
 - 要求パッケージのインストール<br>
@@ -32,9 +48,3 @@ https://github.com/waleedka/coco
 
     `python setup.py develop` or `python setup.py install`
 
-
-### 画像からのデータセット作成
-
-(1) RGBimage - 白黒mask からのデータセット作成
-
-imageとmaskは同じサイズであり、白黒マスクはインスタンスが分離されているような画像を用意する
