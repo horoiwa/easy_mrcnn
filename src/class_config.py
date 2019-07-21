@@ -57,6 +57,8 @@ class OneClassConfig(Config):
     # エポックあたりステップ数
     STEPS_PER_EPOCH = 100
 
+    VALIDATION_STEPS = 5
+
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
 
