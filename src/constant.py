@@ -14,7 +14,9 @@ MASK_COLORMODE = 'L'
 
 N_TRAIN = 3
 IMAGE_SIZE = (768, 768)
-INPUT_SIZE = (512, 512)
+INPUT_SIZE = (768, 768)
+assert IMAGE_SIZE == INPUT_SIZE, "開発の都合によりリサイズ禁止"
+
 #: 基本的にはこの設定値なら影響がない
 PCA_COLOR = True
 PCA_COLOR_RANGE = (-0.2, 0.2)
