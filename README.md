@@ -1,6 +1,6 @@
 ## One class Mask-RCNN
 
-The repo is based on the implementation of Mask-RCNN by (https://github.com/matterport/Mask_RCNN).<br>
+This repo uses the implementation of Mask-RCNN by (https://github.com/matterport/Mask_RCNN).<br>
 Great thanks to the developers.
 
 This repo is utility to train one-class mask and run inference by Mask-RCNN.
