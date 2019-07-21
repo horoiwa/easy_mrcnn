@@ -19,6 +19,7 @@ def check_dataset(out_dir):
     dataset_train = OneClassDataset()
     dataset_train.load_dataset(train_dir)
     dataset_train.prepare()
+    print("Dataset train:", len(dataset_train.image_ids))
     out_path = os.path.join(out_dir, 'train_dataset.png')
     show_instance(dataset_train, out_path)
 
@@ -26,8 +27,9 @@ def check_dataset(out_dir):
     dataset_valid = OneClassDataset()
     dataset_valid.load_dataset(valid_dir)
     dataset_valid.prepare()
+    print("Dataset valid:", len(dataset_valid.image_ids))
     out_path = os.path.join(out_dir, 'valid_dataset.png')
-    show_instance(dataset_train, out_path)
+    show_instance(dataset_valid, out_path)
 
 
 def show_instance(dataset, out_path):

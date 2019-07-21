@@ -4,6 +4,11 @@ from mrcnn import utils
 DATASET_NAME = 'cell_dataset'
 OBJECT_NAME = 'cell'
 
+IMAGES_PER_GPU = 4
+INITIAL_EPOCHS = 2
+INITIAL_LR = 0.001
+
+
 ROOT_DIR = os.path.abspath('.')
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "src", "mask_rcnn_coco.h5")
@@ -16,7 +21,7 @@ MASK_COLORMODE = 'L'
 
 N_TRAIN = 3
 IMAGE_SIZE = (768, 768)
-INPUT_SIZE = (1024, 1024)
+INPUT_SIZE = (512, 512)
 
 #: 基本的にはこの設定値なら影響がない
 PCA_COLOR = True

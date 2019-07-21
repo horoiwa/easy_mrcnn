@@ -1,18 +1,19 @@
+import copy
 import glob
 import os
-import copy
 import pathlib
 
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import cv2
 
+import cv2
 from mrcnn import utils
 from mrcnn.config import Config
 from mrcnn.model import log
 
-from .constant import COCO_MODEL_PATH, DATASET_NAME, OBJECT_NAME, ROOT_DIR
+from .constant import (COCO_MODEL_PATH, DATASET_NAME, IMAGES_PER_GPU,
+                       OBJECT_NAME, ROOT_DIR)
 
 
 def blob_detection(mask_path):
@@ -48,7 +49,7 @@ class OneClassConfig(Config):
 
     #: batchあたりの画像数
     #: GPUのメモリが大きいなら増やしてもよい
-    IMAGES_PER_GPU = 1
+    IMAGES_PER_GPU = IMAGES_PER_GPU
 
     # クラス数　= 背景 + 検出クラス数
     NUM_CLASSES = 1 + 1
