@@ -1,15 +1,17 @@
 import os
-import shutil
 import random
+import shutil
+
+import matplotlib.pyplot as plt
 
 import click
-import matplotlib.pyplot as plt
 import mrcnn.model as modellib
-from mrcnn.model import log
 from mrcnn import visualize
+from mrcnn.model import log
 
 from .class_config import InferenceConfig, OneClassConfig, OneClassDataset
-from .constant import INITIAL_EPOCHS, INITIAL_LR, INPUT_SIZE
+from .constant import (INITIAL_EPOCHS, INITIAL_LR, INPUT_SIZE, SECOND_EPOCHS,
+                       SECOND_LR)
 from .generator import dataset_generator
 from .util import check_dataset, get_ax
 
@@ -82,6 +84,10 @@ def train(dataset_path, out_dir):
                 epochs=INITIAL_EPOCHS,
                 layers='heads')
 
+    model.train(dataset_train, dataset_val,
+                learning_rate=SECOND_LR,
+                epochs=SECOND_EPOCHS,
+                layers='all')
 
 @cli.command()
 @click.option('--images_dir', '-i', required=True,
@@ -150,6 +156,7 @@ def validation(dataset_path, out_dir):
         log("gt_class_id", gt_class_id)
         log("gt_bbox", gt_bbox)
         log("gt_mask", gt_mask)
+        plt.close()
 
 
 if __name__ == '__main__':

@@ -23,16 +23,17 @@ This repo is utility to train one-class mask and run inference by Mask-RCNN.
 
 ### 環境作成
 - 要求パッケージのインストール<br>
-    MASK-RCNNフォルダ内で`pip install -r requirements.txtx`
+    MASK-RCNNフォルダ内で`pip install -r requirements.txtx`<br>
+    ※ubuntuではこれだけでOKだったがwindows10ではimgaugとshapelyのインストールに失敗した。
 
-- imgaugパッケージのinstall
-※この手順はimgaugのインストに失敗した場合に必要
+- imgaugパッケージのinstall<br>
+※この手順はimgaugのインストに失敗した場合に必要<br>
 pip install six numpy scipy Pillow matplotlib scikit-image opencv-python imageio Shapely
 
-    インストール方法　：　https://imgaug.readthedocs.io/en/latest/source/installation.html
+    公式インストール方法　：　https://imgaug.readthedocs.io/en/latest/source/installation.html
 
-- Shapely のインストール
-※この手順はshapelyのインストに失敗した場合に必要
+- Shapely のインストール<br>
+※この手順はshapelyのインストに失敗した場合に必要<br>
 UnicodeDecodeError => condaに切り替えでおｋ
 
 - pycocotoolsのインストール要求
