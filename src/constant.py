@@ -4,11 +4,12 @@ from mrcnn import utils
 DATASET_NAME = 'cell_dataset'
 OBJECT_NAME = 'cell'
 
+
 IMAGES_PER_GPU = 2
 
-INITIAL_EPOCHS = 2
+INITIAL_EPOCHS = 1
 INITIAL_LR = 0.001
-SECOND_EPOCHS = 10
+SECOND_EPOCHS = 2
 SECOND_LR = 0.001
 
 

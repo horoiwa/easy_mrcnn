@@ -17,7 +17,6 @@ from .constant import (COCO_MODEL_PATH, DATASET_NAME, IMAGES_PER_GPU,
 
 
 def blob_detection(mask_path):
-    print(mask_path)
     mask = cv2.imread(mask_path, 0)
     _, mask = cv2.threshold(mask, 150, 255, cv2.THRESH_BINARY)
 
@@ -132,8 +131,12 @@ class OneClassDataset(utils.Dataset):
 
 
 class InferenceConfig(OneClassConfig):
+
     GPU_COUNT = 1
+
     IMAGES_PER_GPU = 1
+
+    DETECTION_MIN_CONFIDENCE = 0.5
 
 
 if __name__ == '__main__':

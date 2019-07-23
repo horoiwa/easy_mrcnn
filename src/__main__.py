@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 import shutil
 
@@ -47,7 +48,9 @@ def prepare(dataset_dir, out_dir):
               type=click.Path(exists=True))
 @click.option('--out_dir', '-o', default='logs',
               help='Dataset folder path')
-def train(dataset_path, out_dir):
+@click.option('--reset', '-r', is_flag=False,
+              help='start training from coco weights')
+def train(dataset_path, out_dir, reset):
     dataset_dir = os.path.abspath(dataset_path)
     out_dir = os.path.join(dataset_dir, out_dir)
     # Training dataset
@@ -66,28 +69,44 @@ def train(dataset_path, out_dir):
 
     # Create model in training mode
     MODEL_DIR = os.path.join(out_dir, "model")
-    if os.path.exists(MODEL_DIR):
+
+    if reset and os.path.exists(MODEL_DIR):
         shutil.rmtree(MODEL_DIR)
-    os.makedirs(MODEL_DIR)
+        os.makedirs(MODEL_DIR)
+    elif not os.path.exists(MODEL_DIR):
+        os.makedirs(MODEL_DIR)
+    else:
+        print("Invalid option, Remove logs/model dir")
+        sys.exit()
 
     model = modellib.MaskRCNN(mode="training", config=config,
                               model_dir=MODEL_DIR)
+    try:
+        weights_path = model.find_last()
+    except FileNotFoundError:
+        weights_path = None
 
-    COCO_MODEL_PATH = os.path.join('src','mask_rcnn_coco.h5')
-    model.load_weights(COCO_MODEL_PATH, by_name=True,
-                       exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
-                                "mrcnn_bbox", "mrcnn_mask"])
+    if weights_path:
+        print("Loading weights ", weights_path)
+        model.load_weights(weights_path, by_name=True)
+        print("Training restart")
+        model.train(dataset_train, dataset_val,
+                    learning_rate=SECOND_LR,
+                    epochs=SECOND_EPOCHS,
+                    layers='all')
+    else:
+        print("No previous model found: Use coco weights")
+        COCO_MODEL_PATH = os.path.join('src', 'mask_rcnn_coco.h5')
+        model.load_weights(COCO_MODEL_PATH, by_name=True,
+                           exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",
+                                    "mrcnn_bbox", "mrcnn_mask"])
 
-    print("Training network heads")
-    model.train(dataset_train, dataset_val,
-                learning_rate=INITIAL_LR,
-                epochs=INITIAL_EPOCHS,
-                layers='heads')
+        print("Training network heads")
+        model.train(dataset_train, dataset_val,
+                    learning_rate=INITIAL_LR,
+                    epochs=INITIAL_EPOCHS,
+                    layers='heads')
 
-    model.train(dataset_train, dataset_val,
-                learning_rate=SECOND_LR,
-                epochs=SECOND_EPOCHS,
-                layers='all')
 
 @cli.command()
 @click.option('--images_dir', '-i', required=True,

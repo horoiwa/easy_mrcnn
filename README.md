@@ -49,3 +49,8 @@ https://github.com/waleedka/coco
 
     `python setup.py develop` or `python setup.py install`
 
+
+<br>
+
+### その他
+pretrained weightsのhdfはOS依存のようなので開けなかったら消して再ダウンロード
