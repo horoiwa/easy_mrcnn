@@ -48,7 +48,7 @@ def prepare(dataset_dir, out_dir):
               type=click.Path(exists=True))
 @click.option('--out_dir', '-o', default='logs',
               help='Dataset folder path')
-@click.option('--reset', '-r', is_flag=False,
+@click.option('--reset', '-r', is_flag=True,
               help='start training from coco weights')
 def train(dataset_path, out_dir, reset):
     dataset_dir = os.path.abspath(dataset_path)
@@ -71,13 +71,13 @@ def train(dataset_path, out_dir, reset):
     MODEL_DIR = os.path.join(out_dir, "model")
 
     if reset and os.path.exists(MODEL_DIR):
+        print("Remove previous model dir")
         shutil.rmtree(MODEL_DIR)
         os.makedirs(MODEL_DIR)
     elif not os.path.exists(MODEL_DIR):
         os.makedirs(MODEL_DIR)
     else:
-        print("Invalid option, Remove logs/model dir")
-        sys.exit()
+        print("Resume training from past weights")
 
     model = modellib.MaskRCNN(mode="training", config=config,
                               model_dir=MODEL_DIR)

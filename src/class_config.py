@@ -54,7 +54,7 @@ class OneClassConfig(Config):
     NUM_CLASSES = 1 + 1
 
     # エポックあたりステップ数
-    STEPS_PER_EPOCH = 100
+    STEPS_PER_EPOCH = 50
 
     VALIDATION_STEPS = 5
 
