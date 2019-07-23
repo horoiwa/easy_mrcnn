@@ -4,6 +4,7 @@ sample/
 *logs*
 *.ipynb
 *.jpg*
+*.h5
 dataset/logs/
 
 *.so
