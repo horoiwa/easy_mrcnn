@@ -61,3 +61,23 @@ def get_ax(rows=1, cols=1, size=16):
     """
     _, ax = plt.subplots(rows, cols, figsize=(size*cols, size*rows))
     return ax
+
+
+def mask2image(mask):
+    """ maskを受け取り二値化画像を返す
+        maskの重複が起こらないように処理している
+    """
+    image = np.zeros(mask.shape[:2])
+
+    #: 領域重複の対策: 重なっていたら上のレイヤーを優先する
+    occlusion = np.logical_not(mask[:, :, -1]).astype(np.uint8)
+    for i in range(mask.shape[-1]-2, -1, -1):
+        mask[:, :, i] = mask[:, :, i] * occlusion
+        occlusion = np.logical_and(occlusion, np.logical_not(mask[:, :, i]))
+
+    #: 重なるのが本気で嫌ならここで各masklayerにモルフォロジー演算で縮小かければよい
+    for i in range(0, mask.shape[-1]):
+        image = image + mask[:, :, i]
+
+    return image*255
+

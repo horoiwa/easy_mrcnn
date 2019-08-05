@@ -136,7 +136,7 @@ class InferenceConfig(OneClassConfig):
 
     IMAGES_PER_GPU = 1
 
-    DETECTION_MIN_CONFIDENCE = 0.5
+    DETECTION_MIN_CONFIDENCE = 0.4
 
 
 if __name__ == '__main__':

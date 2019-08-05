@@ -3,7 +3,10 @@ import sys
 import random
 import shutil
 
+import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
+import skimage
 
 import click
 import mrcnn.model as modellib
@@ -12,9 +15,9 @@ from mrcnn.model import log
 
 from .class_config import InferenceConfig, OneClassConfig, OneClassDataset
 from .constant import (INITIAL_EPOCHS, INITIAL_LR, INPUT_SIZE, SECOND_EPOCHS,
-                       SECOND_LR)
+                       SECOND_LR, IMAGE_SIZE, INPUT_SIZE)
 from .generator import dataset_generator
-from .util import check_dataset, get_ax
+from .util import check_dataset, get_ax, mask2image
 
 
 @click.group()
@@ -109,16 +112,43 @@ def train(dataset_path, out_dir, reset):
 
 
 @cli.command()
-@click.option('--images_dir', '-i', required=True,
+@click.option('--image_path', '-i', required=True,
               help='image folder path',
               type=click.Path(exists=True))
-@click.option('--logs', '-l', default='dataset/logs',
+@click.option('--model_dir', '-m', default='dataset/logs/model',
+              help='trained weights model dir')
+@click.option('--out_dir', '-o', default='dataset/logs/out',
               help='log dir after training')
-def predict(images_dir, logs):
-    images_dir = os.path.abspath(images_dir)
-    logs_dir = os.path.abspath(logs)
-    print(images_dir)
-    print(logs_dir)
+def inference(image_path, model_dir, out_dir):
+    image_path = os.path.abspath(image_path)
+    model_dir = os.path.abspath(model_dir)
+    out_dir = os.path.abspath(out_dir)
+
+    if not os.path.exists(model_dir):
+        print(f"Error: model dir {model_dir} not exists")
+        sys.exit()
+    elif not os.path.exists(image_path):
+        print(f"Error: Image path {image_path} not exists")
+        sys.exit()
+
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+
+    config = InferenceConfig()
+    model = modellib.MaskRCNN(mode="inference", model_dir=model_dir,
+                              config=config)
+    weights_path = model.find_last()
+    # Load weights
+    print("Loading weights ", weights_path)
+    model.load_weights(weights_path, by_name=True)
+
+    image = skimage.io.imread(image_path)
+    image = image[..., np.newaxis]
+    results = model.detect([image], verbose=1)[0]
+
+    image_pred = mask2image(results['masks'])
+    image_pred = Image.fromarray(np.uint8(image_pred)).convert('L')
+    image_pred.save(os.path.join(out_dir, os.path.basename(image_path)))
 
 
 @cli.command()
