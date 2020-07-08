@@ -1,53 +1,50 @@
-## One class Mask-RCNN
+# One class Mask-RCNN/単一クラス用Mask-RCNN
 
-This repo uses the implementation of Mask-RCNN by (https://github.com/matterport/Mask_RCNN).<br>
-Great thanks to the developers.
+このリポジトリはInstance segmentationを単一クラスに対して簡単に適用するための https://github.com/matterport/Mask_RCNN のラッパーです。
 
-This repo is utility to train one-class mask and run inference by Mask-RCNN.
+環境構築後、元画像-二値化マスク画像をそれぞれ`dataset`の`image`および`mask`ディレクトリに配置するだけで準備は完了です。<br>
+
+注意：<br>
+二値化マスクは検出したい物体が分離されている必要があります。<br>
+これはopencvのブロブ検出関数によって二値化マスク画像から各物体を検出するためです。
 
 <br>
 
-### 単一クラス用Mask-RCNN
-このrepoはInstance segmentationを単一クラスに対して適用するためのユーティリティです。
+1. aa
+   `python -m src prepare -d ./dataset`
+   転移学習用の訓練済み重みdownloadを含むのでproxy下のときは注意
 
-元画像-二値化マスク画像をそれぞれ`dataset`の`imag`および`mask`に配置するだけで準備は完了です。<br>
-※二値化マスクではインスタンスが分離されている必要があります。これはopencvのブロブ検出によってインスタンスの判断を行うためです。
+2. aa
+   `python -m src train -d ./dataset`
 
-1. `python -m src prepare -d ./dataset`
-2. `python -m src train -d ./dataset`
-3. `python -m src validation -d ./dataset`
+3. aa
+   `python -m src validation -d ./dataset`
 
-結果はすべて`dataset/logs`に出力されます。
+<br>
+
+実行結果はすべて`dataset/logs`に出力されます。
 
 <br>
 
 ### 環境作成
-- 要求パッケージのインストール<br>
-    MASK-RCNNフォルダ内で`pip install -r requirements.txtx`<br>
-    ※ubuntuではこれだけでOKだったがwindows10ではimgaugとshapelyのインストールに失敗した。
 
-- imgaugパッケージのinstall<br>
-※この手順はimgaugのインストに失敗した場合に必要<br>
-pip install six numpy scipy Pillow matplotlib scikit-image opencv-python imageio Shapely
+※windows10でのみ動作確認<br>
+※tensorflowだけは事前にインストールしといた方が安全
 
-    公式インストール方法　：　https://imgaug.readthedocs.io/en/latest/source/installation.html
+```
+conda create -n mrcnn python=3.7
 
-- Shapely のインストール<br>
-※この手順はshapelyのインストに失敗した場合に必要<br>
-UnicodeDecodeError => condaに切り替えでおｋ
+conda activate mrcnn
 
-- pycocotoolsのインストール要求
-https://github.com/waleedka/coco
+cd ./Mask_RCNN
 
-    Note: Edit PythonAPI/Makefile and replace "python" with "python3".
+pip install -r requirements.txt
 
+python setup.py install
 
-    PythonAPIディレクトリの中で
-    `python setup.py build_ext install`
+pip install click
 
-- Mask-RCNNのインストール
-
-    `python setup.py develop` or `python setup.py install`
+```
 
 
 <br>
