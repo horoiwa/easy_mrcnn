@@ -6,7 +6,7 @@ sample/
 *.jpg*
 *.h5
 dataset/logs/
-
+*.h5
 *.so
 
 # Distribution / packaging
