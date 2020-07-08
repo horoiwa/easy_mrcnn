@@ -8,6 +8,9 @@ sample/
 dataset/logs/
 *.so
 
+dataset/logs
+
+
 # Distribution / packaging
 .Python
 build/

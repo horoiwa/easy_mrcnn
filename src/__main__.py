@@ -32,6 +32,8 @@ def cli():
 @click.option('--out_dir', '-o', default='logs',
               help='Dataset folder path')
 def prepare(dataset_dir, out_dir):
+    """用意されたデータセットをaugmentationして水増しデータセットを作成します
+    """
     out_dir = os.path.join(dataset_dir, out_dir)
     if os.path.exists(out_dir):
         shutil.rmtree(out_dir)
