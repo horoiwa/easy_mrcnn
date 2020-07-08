@@ -12,6 +12,8 @@
   ※入力サイズについてはsrc.constant.INPUT_SIZEから変更可能です。
   ※入力サイズがでかいとGPUメモリをたくさん食います
 
+- tensorflow1.X系
+
 <br>
 
 ## 使い方
@@ -39,9 +41,11 @@
 ※tensorflowだけは事前にインストールしといた方が安全
 
 ```
-conda create -n mrcnn python=3.7
+conda create -n mrcnn python=3.6
 
 conda activate mrcnn
+
+conda install tensorflow-gpu==1.8
 
 conda install tensorflow-gpu==1.3.0
 
