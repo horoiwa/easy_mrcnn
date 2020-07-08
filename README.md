@@ -35,7 +35,7 @@
 
 ### 環境作成
 
-※windows10でのみ動作確認<br>
+※ubuntu18でのみ動作確認<br>
 ※tensorflowだけは事前にインストールしといた方が安全
 
 ```
@@ -43,7 +43,7 @@ conda create -n mrcnn python=3.7
 
 conda activate mrcnn
 
-pip install tensorflow==2.0.0
+conda install tensorflow-gpu==1.3.0
 
 cd ./Mask_RCNN
 
