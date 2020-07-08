@@ -8,15 +8,20 @@
 - 二値化マスクは検出したい物体が分離されている必要があります。<br>
   これはopencvのブロブ検出関数によって二値化マスク画像から各物体を検出するためです。
 
-- グレースケール画像にしか対応していません
+- 512×512のグレースケール画像にしか対応していません。<br>
+  ※入力サイズについてはsrc.constant.INPUT_SIZEから変更可能です。
+  ※入力サイズがでかいとGPUメモリをたくさん食います
 
 <br>
 
-1. aa
-   `python -m src prepare -d ./dataset`
-   転移学習用の訓練済み重みdownloadを含むのでproxy下のときは注意
+## 使い方
 
-2. aa
+1. `python -m src prepare -d ./dataset`<br>
+   データセットのaugumentationにより水増しを行います。
+   正しい形式のimage-mask対が格納されていればインスタンスセグメンテーションされた画像がpop-outされます。
+   同時に転移学習用の訓練済み重みdownloadも行うのでproxy下ネットワークのときは注意
+
+2. トレーニングの開始
    `python -m src train -d ./dataset`
 
 3. aa
@@ -37,6 +42,8 @@
 conda create -n mrcnn python=3.7
 
 conda activate mrcnn
+
+pip install tensorflow==2.0.0
 
 cd ./Mask_RCNN
 

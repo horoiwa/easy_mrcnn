@@ -32,9 +32,9 @@ def cli():
 @click.option('--out_dir', '-o', default='logs',
               help='Dataset folder path')
 def prepare(dataset_dir, out_dir):
-    """用意されたデータセットをaugmentationして水増しデータセットを作成します
-        Note:
-        データセットのサンプル数augmentationによって9999枚までサンプルを水増しします
+    """
+        用意されたデータセットをaugmentationして水増しデータセットを作成します
+        水増し倍率はsrc.constat.N_TRAINに依存
     """
     out_dir = os.path.join(dataset_dir, out_dir)
     if os.path.exists(out_dir):

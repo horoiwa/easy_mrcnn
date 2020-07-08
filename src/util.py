@@ -37,6 +37,7 @@ def show_instance(dataset, out_path):
     image_id = random.choice(dataset.image_ids)
     image = dataset.load_image(image_id)
     mask, class_ids = dataset.load_mask(image_id)
+
     # Compute Bounding box
     bbox = utils.extract_bboxes(mask)
 
@@ -46,6 +47,7 @@ def show_instance(dataset, out_path):
     log("mask", mask)
     log("class_ids", class_ids)
     log("bbox", bbox)
+
     # Display image and instances
     visualize.display_instances(image, bbox, mask,
                                 class_ids, dataset.class_names)

@@ -18,6 +18,7 @@ from .constant import (COCO_MODEL_PATH, DATASET_NAME, IMAGES_PER_GPU,
 
 WORKING_DIR = pathlib.Path(__file__).parents[1].resolve()
 
+
 def blob_detection(mask_path):
     """ opencvのblob検出関数で物体を分離する
     """
