@@ -16,8 +16,17 @@ from .constant import (COCO_MODEL_PATH, DATASET_NAME, IMAGES_PER_GPU,
                        OBJECT_NAME, ROOT_DIR)
 
 
+WORKING_DIR = pathlib.Path(__file__).parents[1].resolve()
+
 def blob_detection(mask_path):
-    mask = cv2.imread(mask_path, 0)
+    """ opencvのblob検出関数で物体を分離する
+    """
+
+    #: opencvで日本語入り絶対パスがうまく読み込めなかったため相対パスに変換した
+    mask_path = pathlib.Path(mask_path).relative_to(WORKING_DIR)
+    mask = cv2.imread(str(mask_path), 0)
+
+    #:二値化しきれてない画素がないかチェック
     _, mask = cv2.threshold(mask, 150, 255, cv2.THRESH_BINARY)
 
     label = cv2.connectedComponentsWithStats(mask)

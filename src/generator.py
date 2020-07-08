@@ -37,12 +37,12 @@ def dataset_generator(dataset_dir, outdir):
                                    target_size=TARGET_SIZE,
                                    sample_size=SAMPLE_SIZE,
                                    shuffle=True)
+
     for cnt in range(1, N_TRAIN+1):
         images, masks = customGen.__next__()
         for n, (image, mask) in enumerate(zip(images, masks)):
             if IMAGE_COLORMODE == 'RGB':
                 raise NotImplementedError
-                image = Image.fromarray(np.uint8(image*255))
             elif IMAGE_COLORMODE == 'L':
                 image = image.reshape(SAMPLE_SIZE)*255
                 image = Image.fromarray(np.uint8(image))
@@ -154,6 +154,11 @@ def ImageMaskGenerator(batch_size, dataset_dir, folder, aug_dict,
 
 
 def adjustmask(mask):
+    """
+        Note:
+        ※Mask画像はグレスケしか動作検証していない
+    """
+
     if MASK_COLORMODE == 'L':
         assert mask.shape[2] == 1
         mask[mask > 0.5] = 1
@@ -161,36 +166,7 @@ def adjustmask(mask):
         return mask
 
     elif MASK_COLORMODE == 'RGB':
-        assert mask.shape[2] == 3
-        r = mask[:, :, 0]
-        r[r > 0.5] = 1
-        r[r < 0.5] = 0
-        g = mask[:, :, 1]
-        g[g > 0.5] = 1
-        g[g < 0.5] = 0
-        b = mask[:, :, 2]
-        b[b > 0.5] = 1
-        b[b < 0.5] = 0
-
-        mask_new = np.zeros(SAMPLE_SIZE + (len(MASK_USECOLORS),))
-
-        i = 0
-        if 'R' in MASK_USECOLORS:
-            mask_new[:, :, i] = r
-            i += 1
-        if 'G' in MASK_USECOLORS:
-            mask_new[:, :, i] = g
-            i += 1
-        if 'B' in MASK_USECOLORS:
-            mask_new[:, :, i] = b
-            i += 1
-
-        """背景を1クラスとして扱う
-        """
-        if BG_COLOR:
-            mask_new = np.apply_along_axis(
-                lambda x: x if np.any(x) else BACKGROUND_COLOR, 2, mask_new)
-        return mask_new
+        raise NotImplementedError
 
     else:
         raise Exception("Unexpected Error #234")
