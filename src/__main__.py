@@ -33,6 +33,8 @@ def cli():
               help='Dataset folder path')
 def prepare(dataset_dir, out_dir):
     """用意されたデータセットをaugmentationして水増しデータセットを作成します
+        Note:
+        データセットのサンプル数に関わらずaugmentationによって9999枚までサンプルを水増しします
     """
     out_dir = os.path.join(dataset_dir, out_dir)
     if os.path.exists(out_dir):
